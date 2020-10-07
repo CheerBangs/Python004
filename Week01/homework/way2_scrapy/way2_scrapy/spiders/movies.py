@@ -32,6 +32,9 @@ class MoviesSpider(scrapy.Spider):
     def parse(self, response):
         validDetailUrls = self.parseHome(response)
         print(validDetailUrls)
+        count = 0
         for targetUrl in validDetailUrls:
-            print('targetUrl:' + localMaoyanDetailUrl if useLocal else targetUrl)
+            targetUrl = (localMaoyanDetailUrl if useLocal else targetUrl) + '?index=' + str(count)
+            count = count + 1
+            print('targetUrl:' + targetUrl)
             yield scrapy.Request(url=localMaoyanDetailUrl if useLocal else targetUrl , meta = {}, callback=self.parseDetail)
